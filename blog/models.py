@@ -20,6 +20,8 @@ class Post(models.Model):
     text = models.TextField()
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
+    def approved_comments(self):
+        return self.comments.filter(approved_comment=True)
     '''
     Now we define the properties we were talking about: title, text, created_date, published_date and author.
     To do that we need to define the type of each field 
@@ -48,3 +50,16 @@ class Post(models.Model):
     In this scenario, when we call __str__() we will get a text (string) with a Post title.
     '''
 
+class Comment(models.Model):
+    post = models.ForeignKey('blog.Post', on_delete=models.CASCADE, related_name='comments')
+    author = models.CharField(max_length=200)
+    text = models.TextField()
+    created_date = models.DateTimeField(default=timezone.now)
+    approved_comment = models.BooleanField(default=False)
+
+    def approve(self):
+        self.approved_comment = True
+        self.save()
+
+    def __str__(self):
+        return self.text

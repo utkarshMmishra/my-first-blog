@@ -9,6 +9,9 @@
             </div>
             
             <p>{{ post.text }}</p>
+            <!--
+                to display approved comments in home page
+            <a href="{% url 'post_detail' pk=post.pk %}">Comments: {{ post.approved_comments.count }}</a>-->
         </div>
     {% endfor %}
 {% endblock %}
